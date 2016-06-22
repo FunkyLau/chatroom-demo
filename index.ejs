@@ -1,0 +1,25 @@
+<!doctype html>
+<html>
+  <head>
+      <meta charset="utf-8">
+    <title><%= title %></title>
+  </head>
+  <body>
+        <div>我的名字:<span class="name"></span></div>
+        <div id="chat-area" style="width:300px;height:400px;background-color:#eef;overflow-y:scroll">
+            <div class="messages">
+            </div>
+			
+        </div>
+		<div id="online-member" style="width:300px;height:100px;background-color:#eff;overflow-y:scroll">
+			<div class="members">
+            </div>
+		</div>
+        <input type="text" class="inputMessage" placeholder="按回车键发送" />&nbsp;&nbsp;&nbsp;&nbsp;
+		<button id="btnSubmit" style="width:50px;height:30px">发送</button>
+		
+  </body>
+   <script src="/socket.io/socket.io.js"></script>
+   <script src="/js/jquery.min.js"></script>
+   <script src="/js/chat.js"></script>
+</html>

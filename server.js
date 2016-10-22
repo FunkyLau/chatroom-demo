@@ -31,9 +31,9 @@ io.on('connection', function (socket) {
     var split_arr = url.split('/');
     var roomid = split_arr[split_arr.length-1] || 'index';
     var user = '';
-
     socket.on('join', function (username) {
          user = username;
+		 
         // 将用户归类到房间
         if (!roomUser[roomid]) {
             roomUser[roomid] = [];
@@ -42,8 +42,11 @@ io.on('connection', function (socket) {
         socket.join(roomid);
         socket.to(roomid).emit('sys', user + '加入了房间');
         socket.emit('sys',user + '加入了房间');
+		var memberArr = roomUser[roomid];
+		socket.to(roomid).emit('printMembers',memberArr);
+		socket.emit('printMembers',memberArr);
     });
-
+	
     // 监听来自客户端的消息
     socket.on('message', function (msg) {
         // 验证如果用户不在房间内则不给发送
@@ -61,12 +64,17 @@ io.on('connection', function (socket) {
             if (err) {
                 log.error(err);
             } else {
+				
                 var index = roomUser[roomid].indexOf(user);
                 if (index !== -1) {
                     roomUser[roomid].splice(index, 1);
                     socket.to(roomid).emit('sys',user+'退出了房间');
+					var memberArr = roomUser[roomid];
+					socket.to(roomid).emit('printMembers',memberArr);
                 } 
             }
+			
+			//socket.emit('printMembers',memberArr);
         });
     });
 });
